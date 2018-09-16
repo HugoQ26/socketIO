@@ -16,18 +16,22 @@ io.on('connection', (socket)=>{
 
     
 
-    socket.emit('newMessage', {
-        from: 'hugo',
-        text: 'hello girl',
-        createAt: new Date().toLocaleString()
-    })
+    // socket.emit('newMessage', {
+    //     from: 'hugo',
+    //     text: 'hello girl',
+    //     createAt: new Date().toLocaleString()
+    // })
 
     
 
-    socket.on('createMessage', (doc)=> {
-        console.log('createMessage: ', doc);
-        
-    })
+    socket.on('createMessage', (message)=> {  //emits event to single connection
+        console.log('createMessage: ', message);
+        io.emit('newMessage', {    //emits event to avery single connection
+            from: message.from,
+            text: message.text,
+            createAt: new Date().toLocaleDateString()
+        });
+    });
 
     socket.on('disconnect', ()=> {
         console.log('Client disconected');
