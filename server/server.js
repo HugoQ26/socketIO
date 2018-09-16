@@ -30,7 +30,7 @@ io.on('connection', (socket)=>{
 
     
 
-    socket.on('createMessage', (message)=> {  //emits event to single connection
+    socket.on('createMessage', (message, callback)=> {  //emits event to single connection
         console.log('createMessage: ', message);
         io.emit('newMessage', {    //emits event to avery single connection
             from: message.from,
@@ -38,6 +38,7 @@ io.on('connection', (socket)=>{
             createAt: new Date().toLocaleDateString()
         });
 
+        callback('What a hell is going on');
         // socket.broadcast.emit('newMessage', {    //emits event to everyone except this socket
         //     from: message.from,
         //     text: message.text,
