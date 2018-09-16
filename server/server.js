@@ -7,9 +7,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static(publicPath));
 
 
-app.get('/', (req, res)=>{
-    res.render('index')
-})
+
 
 app.listen(port, (err)=>{
     if(err) {
