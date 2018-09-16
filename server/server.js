@@ -10,11 +10,22 @@ app.use(express.static(publicPath));
 
 var server = http.createServer(app);
 var io = socketIO(server);
-
+var number2 = 1;
 io.on('connection', (socket)=>{
-    console.log("New user connected");
+    console.log(number2++, " users connected");
 
-    
+    socket.emit("welcomeMessage", {
+        from: "Admin",
+        text: 'Welcome to chat app'
+    })
+
+    socket.broadcast.emit("newUser", {
+        from: "Admin",
+        text: 'New user joined',
+        joinedAt: new Date().toLocaleString()
+    })
+
+
 
     // socket.emit('newMessage', {
     //     from: 'hugo',
@@ -31,10 +42,18 @@ io.on('connection', (socket)=>{
             text: message.text,
             createAt: new Date().toLocaleDateString()
         });
+
+        // socket.broadcast.emit('newMessage', {    //emits event to everyone except this socket
+        //     from: message.from,
+        //     text: message.text,
+        //     createAt: new Date().toLocaleDateString()
+        // });
+
     });
 
     socket.on('disconnect', ()=> {
         console.log('Client disconected');
+        number2--
         
     })
     
