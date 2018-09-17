@@ -4,7 +4,8 @@ const express = require('express');
 const app = express();
 const socketIO = require('socket.io');
 
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
+
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -13,6 +14,11 @@ app.use(express.static(publicPath));
 var server = http.createServer(app);
 var io = socketIO(server);
 var number2 = 1;
+
+
+
+
+
 io.on('connection', (socket)=>{
     console.log(number2++, " users connected");
 
@@ -48,7 +54,7 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('createLocationMessage', (location)=>{
-        io.emit('newMessage', generateMessage('Admin', `${location.latitude}, ${location.longitude}`))
+        io.emit('newLocationMessage', generateLocationMessage('Admin', location.latitude, location.longitude))
         
     });
 

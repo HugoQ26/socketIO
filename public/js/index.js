@@ -69,6 +69,12 @@ socket.on('newMessage', function(message) {
     $('#messages').append(`<li>${message.from}: ${message.text} </li>`)    
 })
 
+socket.on('newLocationMessage', function(locationMessage) {
+    notifyMe(locationMessage.from, locationMessage.url);
+    $('#messages').append(`<li>${locationMessage.from}: <a href="${locationMessage.url}" target="_blank" rel="noopener noreferrer">Click to view my position</a></li>`)
+
+})
+
 
 
 
