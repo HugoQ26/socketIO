@@ -76,25 +76,20 @@ socket.on('newLocationMessage', function(locationMessage) {
 })
 
 
-
-
-
-
-
+var $messageTextbox = $('[name = "message"]')
 
 
 $('#message-form').on('submit', function(e) {
     e.preventDefault();
-    
     
     socket.emit('createMessage', {
         from: 'Filip',
         text: $('[name = "message"]').val()
     }, function(data) {
         console.log('Got it', data);
-        
+        $messageTextbox.val("")
     })
-    $('[name = "message"]').val("");
+    $messageTextbox.val("");
 })
 
 var locationButton = $("button#send-location");

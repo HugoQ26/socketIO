@@ -5,20 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-    <p>Wlecome to socet io app</p>
+<body class="chat">
+    <div class="chat__sidebar">
+        <h3>People</h3>
+        <div id="users"></div>
+    </div>
+    <div class="chat__main">
+        <ol id="messages" class="chat__messages"></ol>
+        <div class="chat__footer">
+            <form id="message-form">
+                    <input type="text" name="message" placeholder="Type message">
+                    <button>Send</button>
+                </form>
+                
+                <button id="send-location" class="btn btn-success">Send location</button>
+        </div>
 
-    <form id="message-form">
-        <input type="text" name="message" placeholder="Type message">
-        <button>Send</button>
-    </form>
+    </div>
+
     
-    <button id="send-location">Send location</button>
-
-    <ol id="messages">
-        
-    </ol>
     
 
 <script src="/socket.io/socket.io.js"></script> 
