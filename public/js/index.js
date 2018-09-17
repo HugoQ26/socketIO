@@ -27,19 +27,55 @@ socket.on('disconnect', function() {
 });
 
 
+function notifyMe(from, text) {
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    }
+    else if (Notification.permission === "granted") {
+          var options = {
+                  body: text
+                //   icon: "icon.jpg",
+                  
+               };
+            var notification = new Notification(from ,options);
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission(function (permission) {
+        if (!('permission' in Notification)) {
+          Notification.permission = permission;
+        }
+      
+        if (permission === "granted") {
+          var options = {
+                body: text
+                // icon: "icon.jpg",
+                
+            };
+          var notification = new Notification(from, options);
+        }
+      });
+    }
+  }
+
+
+
+
 
 socket.on('newMessage', function(message) {
+    
+    notifyMe(message.from, message.text);
+    
     console.log('new message: ', message);
     $('#messages').append(`<li>${message.from}: ${message.text} </li>`)    
 })
 
-// socket.emit('createMessage', {
-//         from: 'Filip',
-//         text: 'hey you too'
-//     }, function(data) {
-//         console.log('Got it', data);
-        
-//     })
+
+
+
+
+
+
+
 
 $('#message-form').on('submit', function(e) {
     e.preventDefault();
