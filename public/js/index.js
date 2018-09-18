@@ -60,24 +60,24 @@ function notifyMe(from, text) {
 
 
 
-
 socket.on('newMessage', function(message) {
-    
+    var formatedTime = moment(message.createdAt).format("HH:mm")
     notifyMe(message.from, message.text);
     
     console.log('new message: ', message);
-    $('#messages').append(`<li>${message.from}: ${message.text} </li>`)    
+    $('#messages').append(`<li>${message.from} ${formatedTime}: ${message.text} </li>`)    
 })
 
+
 socket.on('newLocationMessage', function(locationMessage) {
+    var formatedTime = moment(locationMessage.createdAt).format("HH:mm")
     notifyMe(locationMessage.from, locationMessage.url);
-    $('#messages').append(`<li>${locationMessage.from}: <a href="${locationMessage.url}" target="_blank" rel="noopener noreferrer">Click to view my position</a></li>`)
+    $('#messages').append(`<li>${locationMessage.from} ${formatedTime}: <a href="${locationMessage.url}" target="_blank" rel="noopener noreferrer">Click to view my position</a></li>`)
 
 })
 
 
 var $messageTextbox = $('[name = "message"]')
-
 
 $('#message-form').on('submit', function(e) {
     e.preventDefault();
