@@ -54,7 +54,7 @@ io.on('connection', (socket)=>{
     });
 
     socket.on('createLocationMessage', (location, callback)=>{
-        io.emit('newLocationMessage', generateLocationMessage('Admin', location.latitude, location.longitude))
+        io.emit('newLocationMessage', generateLocationMessage('Filip', location.latitude, location.longitude, location.time))
         callback("kupa");
     });
 

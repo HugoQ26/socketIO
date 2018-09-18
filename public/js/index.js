@@ -62,18 +62,32 @@ function notifyMe(from, text) {
 
 socket.on('newMessage', function(message) {
     var formatedTime = moment(message.createdAt).format("HH:mm")
+    var template = $("#message-templete").html();
+    var html = Mustache.render(template, {
+        from: message.from,
+        text: message.text,
+        time: formatedTime
+    });
+    $('#messages').append(html);
+
     notifyMe(message.from, message.text);
     
-    console.log('new message: ', message);
-    $('#messages').append(`<li>${message.from} ${formatedTime}: ${message.text} </li>`)    
+    // console.log('new message: ', message);
+    // $('#messages').append(`<li>${message.from} ${formatedTime}: ${message.text} </li>`)    
 })
 
 
 socket.on('newLocationMessage', function(locationMessage) {
-    var formatedTime = moment(locationMessage.createdAt).format("HH:mm")
+    var formatedTime = moment(locationMessage.time).format("HH:mm")
     notifyMe(locationMessage.from, locationMessage.url);
-    $('#messages').append(`<li>${locationMessage.from} ${formatedTime}: <a href="${locationMessage.url}" target="_blank" rel="noopener noreferrer">Click to view my position</a></li>`)
-
+    var template = $('#location-message-templete').html();
+    var html = Mustache.render(template, {
+        from: locationMessage.from,
+        time: formatedTime,
+        url: locationMessage.url
+    })
+    $('#messages').append(html);
+    // $('#messages').append(`<li>${locationMessage.from} ${formatedTime}: <a href="${locationMessage.url}" target="_blank" rel="noopener noreferrer">Click to view my position</a></li>`)
 })
 
 
@@ -104,7 +118,8 @@ locationButton.on("click", function(){
        
         socket.emit('createLocationMessage', {
             latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+            longitude: position.coords.longitude,
+            time: new Date().getTime()
         }, function(){   
             locationButton.removeAttr('disabled').text('Send location');
         })
