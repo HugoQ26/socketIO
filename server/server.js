@@ -44,7 +44,7 @@ io.on('connection', (socket)=>{
             createAt: new Date().toLocaleDateString()
         });
 
-        callback('What a hell is going on');
+        callback();
         // socket.broadcast.emit('newMessage', {    //emits event to everyone except this socket
         //     from: message.from,
         //     text: message.text,
@@ -53,9 +53,9 @@ io.on('connection', (socket)=>{
 
     });
 
-    socket.on('createLocationMessage', (location)=>{
+    socket.on('createLocationMessage', (location, callback)=>{
         io.emit('newLocationMessage', generateLocationMessage('Admin', location.latitude, location.longitude))
-        
+        callback("kupa");
     });
 
     socket.on('disconnect', ()=> {
